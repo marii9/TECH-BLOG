@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User, Post } = require('../models');
+const { User, blogPost } = require('../models');
 const withAuth = require('../utils/auth');
 
 
@@ -76,15 +76,15 @@ router.get('/post/:id', async (req, res) => {
 router.get('/dashboard', withAuth, async (req, res) => {
   try {
     // Find the logged in user based on the session ID
-    const userData = await User.findByPk(req.session.user_id, {
-      attributes: { exclude: ['password'] },
-      include: [{ model: Post }],
-    });
-
-    const user = userData.get({ plain: true });
-
+    // const userData = await User.findByPk(req.session.user_id, {
+    //   attributes: { exclude: ['password'] },
+    //   include: [{ model: blogPost }],
+    // });
+// console.log("this rendering dashboard" ,  userData)
+    const allPosts = await Post.findAll({where: {user_id: req.session.user_id},})
+    const posts = allPosts.map((post) => post.get({ plain: true }));
     res.render('dashboard', {
-      ...user,
+      posts,
       logged_in: true
     });
   } catch (err) {
@@ -101,4 +101,5 @@ router.get('/login', (req, res) => {
 
   res.render('login');
 });
+
 
