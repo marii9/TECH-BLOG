@@ -1,24 +1,83 @@
 <!-- Loop over each object in the projects array -->
-{{#each projects as |project| }}
-<div class="row mb-4 project">
-  <div class="col-md-5">
-    <h2>
-      <!-- Call helper function with triple brackets to render the emoji span as HTML -->
-      {{{get_emoji}}}
-      <a href="/project/{{project.id}}">{{project.name}}</a>
-    </h2>
-    <p>
-      <span for="img" aria-label="money">💲</span>
-      <!-- Pass needed_funding value to the helper function -->
-      <span class="dollar-amount">{{format_amount project.needed_funding}}</span>
-      needed!
-    </p>
-    <p>Created by {{project.user.name}} on {{format_date project.date_created}}</p>
+{{!-- <html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div class="flex-column justify-space-around">
+    <header class="display-flex justify-space-between align-center p-2">
+      <h1>
+        <a href="/">TechBlog</a>
+      </h1>
+      <nav>
+        <!-- Conditionally render navigation links for logged in users -->
+        {{#if logged_in}}
+        <a href="/">Home</a> |
+        <a href="/dashboard">Dashboard</a> |
+        <button class="no-button" id="logout">Logout</button>
+        {{else}}
+        <a href="/login">Login</a> |
+        <a href="/signup">Sign up</a>
+        {{/if}}
+      </nav>
+    </header>
+    <main class="container container-fluid mt-5">
+      <h2>Dashboard</h2>
+      <hr>
+      <!-- Render existing posts -->
+      {{#if posts.length}}
+        {{#each posts}}
+          <div class="card mb-4">
+            <div class="card-body">
+              <h3 class="card-title">{{title}}</h3>
+              <p class="card-text">{{body}}</p>
+              <p class="card-text"><small class="text-muted">Posted on {{createdAt}}</small></p>
+              <div class="d-flex justify-content-end">
+                <a href="/post/edit/{{id}}" class="btn btn-secondary btn-sm mr-2">Edit</a>
+                <form action="/post/delete/{{id}}" method="POST">
+                  <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        {{/each}}
+      {{else}}
+        <p>You have not created any blog posts yet.</p>
+      {{/if}}
+
+      <hr>
+
+      <!-- Create new post form -->
+      <h3>Create New Post</h3>
+      <form action="/post/create" method="POST">
+        <div class="form-group">
+          <label for="title">Title</label>
+          <input type="text" class="form-control" id="title" name="title" required>
+        </div>
+        <div class="form-group">
+          <label for="body">Body</label>
+          <textarea class="form-control" id="body" name="body" rows="3" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Create</button>
+      </form>
+    </main>
+    <footer>
+      
+    </footer>
   </div>
-  <div class="col-md-7">
-    <p>
-      {{project.description}}
-    </p>
-  </div>
+
+  <!-- Render script for logged in users only -->
+  {{#if logged_in}}
+  <script src="/js/logout.js"></script>
+  {{/if}}
+</body>
+
+</html> --}}
+<div>
+  <h2>Hello</h2>
 </div>
-{{/each}}
