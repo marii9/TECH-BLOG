@@ -1,6 +1,3 @@
-<!-- Loop over each object in the projects array -->
-{{!-- <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -54,16 +51,11 @@
 
       <!-- Create new post form -->
       <h3>Create New Post</h3>
-      <form action="/post/create" method="POST">
-        <div class="form-group">
-          <label for="title">Title</label>
-          <input type="text" class="form-control" id="title" name="title" required>
-        </div>
-        <div class="form-group">
-          <label for="body">Body</label>
-          <textarea class="form-control" id="body" name="body" rows="3" required></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary">Create</button>
+      <form id="new-post-form">
+  <input type="text" id="post-title" placeholder="Title" required>
+  <textarea id="post-content" placeholder="Content" required></textarea>
+  <button type="submit">Create post</button>
+</form>
       </form>
     </main>
     <footer>
@@ -76,8 +68,5 @@
   <script src="/js/logout.js"></script>
   {{/if}}
 </body>
-
-</html> --}}
-<div>
-  <h2>Hello</h2>
-</div>
+<script src="/js/blogPost.js"></script>
+</html> 
