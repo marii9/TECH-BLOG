@@ -40,16 +40,16 @@ const updatePostForm = document.getElementById('update-post-form');
 updatePostForm.addEventListener('submit', async (event) => {
   event.preventDefault();
 
-  const titleInput = document.getElementById('#post-title');
-  const contentInput = document.getElementById('#post-content');
+  const titleInput = document.getElementById('post-title');
+  const contentInput = document.getElementById('post-content');
 
   const title = titleInput.value;
   const content = contentInput.value;
 
   const postId = updatePostForm.dataset.postId;
 
-  const response = await fetch(`/api/blog-posts/update-posts`, {
-    method: 'POST',
+  const response = await fetch(`/api/blog-posts/update-posts/${postId}`, {
+    method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
     },
@@ -65,6 +65,7 @@ updatePostForm.addEventListener('submit', async (event) => {
     console.error(error.message);
   }
 });
+
 
 const deletePostForm = document.getElementById('delete-post-form');
 
