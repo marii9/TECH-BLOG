@@ -26,10 +26,11 @@ router.post('/', withAuth, async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 });
-router.post('/update-post', withAuth, async (req, res) => {
+router.put('/api/blog-posts/update-posts/:id', withAuth, async (req, res) => {
   try {
     // Find the blog post by ID
-    const post = await blogPost.findByPk(req.params.id);
+    const postId = req.params.id;
+    const post = await blogPost.findByPk(postId);
 
     // Check if the post exists and the user owns the post
     if (!post) {
