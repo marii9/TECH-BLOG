@@ -102,4 +102,36 @@ router.get('/login', (req, res) => {
   res.render('login');
 });
 
+router.get('/post/edit/:id', withAuth, async (req, res) => {
+  try {
+    // Find the logged in user based on the session ID
+    const userData = await User.findByPk(req.session.user_id, {
+      attributes: { exclude: ['password'] },
+      include: [{ model: blogPost }],
+    });
 
+    const user = userData.get({ plain: true });
+
+    // Find the post data for the specified ID
+    const postId = req.params.id;
+    const postData = await blogPost.findByPk(postId);
+
+    if (!postData) {
+      res.status(404).json({ message: `Post with ID ${postId} not found` });
+      return;
+    }
+
+    const post = postData.get({ plain: true });
+
+    // Pass the user and post data to the update template
+    res.render('update', {
+      ...user,
+      logged_in: true,
+      post,
+    });
+
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+module.exports = router;
