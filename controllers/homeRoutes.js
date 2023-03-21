@@ -24,8 +24,8 @@ router.post('/', async (req, res) => {
   }
 });
 
-module.exports = router;
-router.get('/', async (req, res) => {
+
+router.get('/homepage', async (req, res) => {
   try {
     // Get all posts and JOIN with user data
     const postData = await Post.findAll({
@@ -73,25 +73,42 @@ router.get('/post/:id', async (req, res) => {
 });
 
 // Use withAuth middleware to prevent access to route
-router.get('/dashboard', withAuth, async (req, res) => {
+// router.get('/dashboard', async (req, res) => {
+//   try {
+    
+//     const userData = await User.findByPk(req.session.user_id, {
+//       attributes: { exclude: ['password'] },
+//       include: [{ model: blogPost }],
+//     });
+
+//     const user = userData.get({ plain: true });
+
+//     res.render('dashboard', {
+//       ...user,
+//       logged_in: true
+//     });
+//   } catch (err) {
+//     res.status(500).json(err);
+//   }
+// });
+router.get('/dashboard', async (req, res) => {
   try {
     // Find the logged in user based on the session ID
-    // const userData = await User.findByPk(req.session.user_id, {
-    //   attributes: { exclude: ['password'] },
-    //   include: [{ model: blogPost }],
-    // });
-// console.log("this rendering dashboard" ,  userData)
-    const allPosts = await Post.findAll({where: {user_id: req.session.user_id},})
-    const posts = allPosts.map((post) => post.get({ plain: true }));
+    const userData = await User.findByPk(req.session.user_id, {
+      attributes: { exclude: ['password'] },
+      include: [{ model: blogPost }],
+    });
+
+    const user = userData.get({ plain: true });
+
     res.render('dashboard', {
-      posts,
+      ...user,
       logged_in: true
     });
   } catch (err) {
     res.status(500).json(err);
   }
 });
-
 router.get('/login', (req, res) => {
   // If the user is already logged in, redirect the request to another route
   if (req.session.logged_in) {
@@ -101,6 +118,7 @@ router.get('/login', (req, res) => {
 
   res.render('login');
 });
+
 
 router.get('/post/edit/:id', withAuth, async (req, res) => {
   try {
@@ -134,4 +152,28 @@ router.get('/post/edit/:id', withAuth, async (req, res) => {
     res.status(500).json(err);
   }
 });
+router.get('/post/delete/:id', withAuth, async (req, res) => {
+  try {
+    const post = await blogPost.findByPk(req.params.id);
+
+    // Check if the post exists and the user owns the post
+    if (!post) {
+      res.status(404).json({ message: 'Post not found' });
+    } else if (post.user_id !== req.session.user_id) {
+      res.status(403).json({ message: 'You are not authorized to delete this post' });
+    } else {
+      // Delete the post
+      await post.destroy();
+
+      // Redirect to the dashboard after deleting the post
+      res.redirect('/dashboard');  
+    }
+  } catch (error) {
+    // Handle any errors that occur
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+
 module.exports = router;
