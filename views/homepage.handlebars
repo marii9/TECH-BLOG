@@ -30,29 +30,38 @@
       <hr>
       {{#if posts.length}}
         {{#each posts}}
-          <div class="card mb-4">
-            <div class="card-body">
-              <h3 class="card-title">{{title}}</h3>
-              <p class="card-text">{{body}}</p>
-              <p class="card-text"><small class="text-muted">Posted on {{createdAt}}</small></p>
-              <!-- Comment section for each post -->
-              <div class="comments">
-                {{#each comments}}
-                  <div class="comment">
-                    <p class="comment-text">{{comment}}</p>
-                    <p class="comment-author"><small>Commented by {{author}} on {{createdAt}}</small></p>
-                  </div>
-                {{/each}}
-                <form class="comment-form">
-                  <input type="text" name="author" placeholder="Your name" required>
-                  <textarea name="comment" placeholder="Write a comment" required></textarea>
-                  <input type="hidden" name="postId" value="{{id}}">
-                  <button type="submit">Submit</button>
-                </form>
-              </div>
-            </div>
+  <div class="card mb-4">
+    <div class="card-body">
+      <h3 class="card-title">{{title}}</h3>
+      <p class="card-text">{{body}}</p>
+      <p class="card-text"><small class="text-muted">Posted on {{createdAt}}</small></p>
+      <div class="comments">
+        {{#each comments}}
+          <div class="comment">
+            <p class="comment-text">{{comment}}</p>
+            <p class="comment-author"><small>Commented by {{author}} on {{createdAt}}</small></p>
+            <form class="update-comment-form" id="update-comment-form-{{id}}">
+              <input type="text" name="author" placeholder="Your name" required>
+              <textarea name="comment" placeholder="Write a comment" required>{{comment}}</textarea>
+              <button type="submit">Update</button>
+              <input type="hidden" name="postId" value="{{../id}}">
+              <input type="hidden" name="commentId" value="{{id}}">
+            </form>
+            <form class="delete-comment-form" id="delete-comment-form-{{id}}">
+              <button type="submit">Delete</button>
+              <input type="hidden" name="commentId" value="{{id}}">
+            </form>
           </div>
         {{/each}}
+        <form class="new-comment-form" id="new-comment-form-{{id}}" data-post-id="{{id}}">
+          <input type="text" name="author" placeholder="Your name" required>
+          <textarea name="content" id="comment-content" placeholder="Write a comment" required></textarea>
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+{{/each}}
       {{else}}
         <p>No posts yet.</p>
       {{/if}}
@@ -69,5 +78,7 @@
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="/js/blogPost.js"></script>
+   <script src="/js/Comment.js"></script>
+
 </body>
 </html>
