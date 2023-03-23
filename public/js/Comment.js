@@ -1,4 +1,4 @@
-const newCommentForm = document.querySelector('#new-comment-form');
+const newCommentForm = document.querySelector('.new-comment-form');
 
 newCommentForm.addEventListener('submit', async (event) => {
   event.preventDefault();
@@ -7,12 +7,13 @@ newCommentForm.addEventListener('submit', async (event) => {
   const content = document.querySelector('#comment-content').value;
 
   try {
-    const response = await fetch(`/api/blog-posts/${postId}/comments`, {
+    const response = await fetch(`/api/blog-posts/comments/${postId}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
+        
         content
       })
     });
@@ -29,7 +30,7 @@ newCommentForm.addEventListener('submit', async (event) => {
   }
 });
 
-const updateCommentForm = document.getElementById('update-comment-form');
+const updateCommentForm = document.getElementById('.update-comment-form');
 
 updateCommentForm.addEventListener('submit', async (event) => {
   event.preventDefault();
