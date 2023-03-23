@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User, blogPost } = require('../models');
+const { User, blogPost, Comment } = require('../models');
 const withAuth = require('../utils/auth');
 
 
@@ -28,7 +28,7 @@ router.post('/', async (req, res) => {
 router.get('/homepage', async (req, res) => {
   try {
     // Get all posts and JOIN with user data
-    const postData = await Post.findAll({
+    const postData = await blogPost.findAll({
       include: [
         {
           model: User,
@@ -172,6 +172,30 @@ router.get('/post/delete/:id', withAuth, async (req, res) => {
     // Handle any errors that occur
     console.error(error);
     res.status(500).json({ message: 'Server error' });
+  }
+});
+
+router.get('/post/:id/comments', async (req, res) => {
+  try {
+    const postId = req.params.id;
+
+    // Find the blog post by ID
+    const post = await blogPost.findByPk(postId);
+
+    if (!post) {
+      // If the post doesn't exist, return a 404 error
+      res.status(404).json({ message: `Post with ID ${postId} not found` });
+      return;
+    }
+
+    // Get all comments for the post
+    const comments = await post.getComments({
+      include: [{ model: User, attributes: ['username'] }],
+    });
+
+    res.status(200).json(comments);
+  } catch (err) {
+    res.status(500).json(err);
   }
 });
 
