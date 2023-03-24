@@ -52,7 +52,7 @@ router.get('/homepage', async (req, res) => {
 
 router.get('/post/:id', async (req, res) => {
   try {
-    const postData = await Post.findByPk(req.params.id, {
+    const postData = await blogPost.findByPk(req.params.id, {
       include: [
         {
           model: User,
@@ -189,7 +189,8 @@ router.get('/post/:id/comments', async (req, res) => {
     }
 
     // Get all comments for the post
-    const comments = await post.getComments({
+    const comments = await Comment.findAll({
+      where: { postId },
       include: [{ model: User, attributes: ['username'] }],
     });
 
