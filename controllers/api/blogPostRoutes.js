@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User, blogPost } = require('../../models');
+const { User, blogPost, Comment } = require('../../models');
 const withAuth = require('../../utils/auth');
 
 // Define the route handler for creating a new blog post
@@ -26,7 +26,7 @@ router.post('/', withAuth, async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 });
-router.put('/api/blog-posts/update-posts/:id', withAuth, async (req, res) => {
+router.put('/update-posts/:id', withAuth, async (req, res) => {
   try {
     // Find the blog post by ID
     const postId = req.params.id;
@@ -57,7 +57,7 @@ router.put('/api/blog-posts/update-posts/:id', withAuth, async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 });
-router.delete('/delete-post', withAuth, async (req, res) => {
+router.delete('/delete-post/:id', withAuth, async (req, res) => {
   try {
     // Find the blog post by ID
     const post = await blogPost.findByPk(req.params.id);
@@ -80,5 +80,73 @@ router.delete('/delete-post', withAuth, async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 });
+
+// Define the route handler for creating a new comment on a post
+router.post('/comments', withAuth, async (req, res) => {
+  try {
+    // Find the post by ID
+    const post = await blogPost.findByPk(req.params.postId);
+
+    // Check if the post exists
+    if (!post) {
+      res.status(404).json({ message: 'Post not found' });
+    } else {
+      // Extract the comment text from the request body
+      const { text } = req.body;
+
+      // Create a new comment on the post with the specified ID
+      const newComment = await Comment.create({
+        content: req.body.content,
+        user_id: req.session.user_id, // Assign the author to the logged-in user's ID
+        post_id: post.id
+      });
+
+      // Respond with a success message and the new comment
+      res.status(201).json({
+        message: 'New comment created successfully',
+        comment: newComment
+      });
+    }
+  } catch (error) {
+    // Handle any errors that occur
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Define the route handler for updating a comment on a post
+router.put('/:postId/comments/:commentId', withAuth, async (req, res) => {
+  try {
+    // Find the comment by ID
+    const commentId = req.params.commentId;
+    const comment = await Comment.findByPk(commentId);
+
+    // Check if the comment exists and the user owns the comment
+    if (!comment) {
+      res.status(404).json({ message: 'Comment not found' });
+    } else if (comment.user_id !== req.session.user_id) {
+      res.status(403).json({ message: 'You are not authorized to update this comment' });
+    } else {
+      // Update the comment text
+      comment.text = req.body.text;
+
+      // Save the updated comment
+      await comment.save();
+
+      // Respond with a success message and the updated comment
+      res.status(200).json({
+        message: 'Comment updated successfully',
+        comment: comment
+      });
+    }
+  } catch (error) {
+    // Handle any errors that occur
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+
+
 
 module.exports = router;
