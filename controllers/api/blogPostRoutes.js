@@ -82,7 +82,7 @@ router.delete('/delete-post/:id', withAuth, async (req, res) => {
 });
 
 // Define the route handler for creating a new comment on a post
-router.post('/comments', withAuth, async (req, res) => {
+router.post('/comments/:postId', withAuth, async (req, res) => {
   try {
     // Find the post by ID
     const post = await blogPost.findByPk(req.params.postId);
@@ -115,10 +115,10 @@ router.post('/comments', withAuth, async (req, res) => {
 });
 
 // Define the route handler for updating a comment on a post
-router.put('/:postId/comments/:commentId', withAuth, async (req, res) => {
+router.put('/update-comment/:postId', withAuth, async (req, res) => {
   try {
     // Find the comment by ID
-    const commentId = req.params.commentId;
+    const commentId = req.params.postId;
     const comment = await Comment.findByPk(commentId);
 
     // Check if the comment exists and the user owns the comment
@@ -146,7 +146,23 @@ router.put('/:postId/comments/:commentId', withAuth, async (req, res) => {
   }
 });
 
+router.delete('/comment-delete/:id', withAuth, async function(req, res) {
+  try {
+    const comment = await Comment.findOne(req.params.id)
+    if (!comment) {
+      res.status(404).json({ message: 'comment not found' });
+    }else{
+    await comment.destroy();
+    
+    res.status(200).json({ message: 'comment deleted' });
+    }
+    }catch (e) {
+  console.error(error);
+  res.status(404).json({ message: 'server error' });
+}
+    })
 
+  
 
 
 module.exports = router;
