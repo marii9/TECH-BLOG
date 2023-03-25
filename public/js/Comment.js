@@ -2,19 +2,21 @@ const newCommentForm = document.querySelector('.new-comment-form');
 
 newCommentForm.addEventListener('submit', async (event) => {
   event.preventDefault();
-
-  const postId = newCommentForm.dataset.postId;
+const title= newCommentForm.getAttribute("data-post-id")
+const name= newCommentForm.getAttribute("#new-name");
+  console.log(title);
   const content = document.querySelector('#comment-content').value;
-
+console.log(content);
   try {
-    const response = await fetch(`/api/blog-posts/comments/${postId}`, {
+    const response = await fetch(`/api/blog-posts/comments/${title}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        
-        content
+        title,
+        name,
+       content
       })
     });
 
@@ -30,15 +32,15 @@ newCommentForm.addEventListener('submit', async (event) => {
   }
 });
 
-const updateCommentForm = document.getElementById('.update-comment-form');
+const updateCommentForm = document.getElementById('update-comment-form');
 
 updateCommentForm.addEventListener('submit', async (event) => {
   event.preventDefault();
 
-  const commentId = updateCommentForm.dataset.commentId;
+  const postId = updateCommentForm.dataset.postId;
   const content = document.querySelector('#comment-content').value;
 
-  const response = await fetch(`/api/comments/${commentId}`, {
+  const response = await fetch(`/api/blog-posts/update-comment/${postId}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
@@ -61,9 +63,9 @@ const deleteCommentForm = document.getElementById('delete-comment-form');
 deleteCommentForm.addEventListener('submit', async (event) => {
   event.preventDefault();
 
-  const commentId = deleteCommentForm.dataset.commentId;
+  const postId = deleteCommentForm.dataset.postId;
 
-  const response = await fetch(`/api/comments/${commentId}`, {
+  const response = await fetch(`/api/blog-posts/delete-comment/${postId}`, {
     method: 'DELETE',
   });
 
@@ -76,6 +78,12 @@ deleteCommentForm.addEventListener('submit', async (event) => {
     console.error(error.message);
   }
 });
+
+
+
+
+
+
 
 
 
