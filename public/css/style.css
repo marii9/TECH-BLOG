@@ -1,24 +1,114 @@
-header, .project:not(:last-child) {
-  border-bottom: 1px solid #ccc;
+body {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
 }
 
-.no-button {
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  color: #1b89bc;
+/* Style the header */
+header {
+  background-color: #333;
+  color: white;
+}
+
+header a {
+  color: white;
   text-decoration: none;
-  font-size: 100%;
 }
 
-.no-button:hover {
-  color: #065b83;
-  text-decoration: underline;
+/* Style the navigation links */
+nav a {
+  color: white;
+  text-decoration: none;
+  margin-right: 10px;
 }
 
-.dollar-amount {
-  color: #056605;
-  font-weight: bold;
-  margin-left: -5px;
+nav button {
+  background-color: #333;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+/* Style the main section */
+.container {
+  max-width: 800px;
+  margin: auto;
+  padding: 0 20px;
+}
+
+h2 {
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+hr {
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+}
+
+.card {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.card-title {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.card-text {
+  margin-bottom: 10px;
+}
+
+.comments {
+  margin-top: 20px;
+}
+
+.comment {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.comment-text {
+  margin-bottom: 5px;
+}
+
+.comment-author {
+  font-style: italic;
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+
+.new-comment-form {
+  margin-top: 10px;
+}
+
+.new-comment-form input[type=text],
+.new-comment-form textarea {
+  display: block;
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.new-comment-form button {
+  background-color: #333;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Style the footer */
+footer {
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 10px;
 }
