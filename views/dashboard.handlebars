@@ -16,7 +16,6 @@
         {{#if logged_in}}
         <a href="/">Home</a> |
         <a href="/dashboard">Dashboard</a> |
-        <button class="no-button" id="logout">Logout</button>
         {{else}}
         <a href="/login">Login</a> |
         <a href="/signup">Sign up</a>
@@ -32,11 +31,11 @@
           <div class="card mb-4">
             <div class="card-body">
               <h3 class="card-title">{{title}}</h3>
-              <p class="card-text">{{body}}</p>
+              <p class="card-text">{{content}}</p>
               <p class="card-text"><small class="text-muted">Posted on {{createdAt}}</small></p>
               <div class="d-flex justify-content-end">
                 <a href="/post/edit/{{id}}" class="btn btn-secondary btn-sm mr-2">Edit</a>
-                <form action="/post/delete/{{id}}" method="POST">
+                <form action="/post/delete/{{id}}" method="DELETE">
                   <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                 </form>
               </div>
