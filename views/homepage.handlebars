@@ -40,17 +40,7 @@
           <div class="comment">
             <p class="comment-text">{{content}}</p>
             <p class="comment-author"><small>Commented by {{name}} on {{createdAt}}</small></p>
-            <form id="update-comment-form" >
-              <input type="text" name="author" placeholder="Your name" required>
-              <textarea name="comment" placeholder="Write a comment" required>{{content}}</textarea>
-              <button type="submit">Update</button>
-              <input type="hidden" name="postId" value="{{../id}}">
-              <input type="hidden" name="commentId" value="{{id}}">
-            </form>
-            <form action="/post/delete/{{id}}" method="DELETE">
-              <button type="submit">Delete</button>
-              <input type="hidden" name="commentId" value="{{id}}">
-            </form>
+            
           </div>
         {{/each}}
         <form class="new-comment-form" id="new-comment-form-{{id}}" data-post-id="{{id}}">
