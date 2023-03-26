@@ -116,54 +116,6 @@ router.post('/comments/:postId', withAuth, async (req, res) => {
 
 
 // Define the route handler for updating a comment on a post
-router.put('/update-comment/:postId', withAuth, async (req, res) => {
-  try {
-    // Find the comment by ID
-    const commentId = req.params.postId;
-    const comment = await Comment.findByPk(commentId);
-
-    // Check if the comment exists and the user owns the comment
-    if (!comment) {
-      res.status(404).json({ message: 'Comment not found' });
-    } else if (comment.user_id !== req.session.user_id) {
-      res.status(403).json({ message: 'You are not authorized to update this comment' });
-    } else {
-      // Update the comment text
-      comment.text = req.body.text;
-
-      // Save the updated comment
-      await comment.save();
-
-      // Respond with a success message and the updated comment
-      res.status(200).json({
-        message: 'Comment updated successfully',
-        comment: comment
-      });
-    }
-  } catch (error) {
-    // Handle any errors that occur
-    console.error(error);
-    res.status(500).json({ message: 'Server error' });
-  }
-});
-
-router.delete('/comment-delete/:id', withAuth, async function(req, res) {
-  try {
-    const comment = await Comment.findOne(req.params.id)
-    if (!comment) {
-      res.status(404).json({ message: 'comment not found' });
-    }else{
-    await comment.destroy();
-    
-    res.status(200).json({ message: 'comment deleted' });
-    }
-    }catch (e) {
-  console.error(error);
-  res.status(404).json({ message: 'server error' });
-}
-    })
-
-  
 
 
 module.exports = router;
