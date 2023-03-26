@@ -23,9 +23,11 @@ router.post('/', async (req, res) => {
     res.status(500).json(err);
   }
 });
+// router.get('/', async (req, res) => {
+//   res.redirect("/login")
+// })
 
-
-router.get('/homepage', async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     // Get all posts and JOIN with user data
     const postData = await blogPost.findAll({
@@ -33,7 +35,9 @@ router.get('/homepage', async (req, res) => {
         {
           model: User,
           attributes: ['username'],
-        },
+        },{
+          model: Comment
+        }
       ],
     });
 
