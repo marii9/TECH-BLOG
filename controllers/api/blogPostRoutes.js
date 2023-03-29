@@ -104,7 +104,7 @@ router.post('/comments/:postId', withAuth, async (req, res) => {
       // Respond with a success message and the new comment
       res.status(201).json({
         message: 'New comment created successfully',
-        comment: newComment
+        content: newComment
       });
     }
   } catch (error) {
@@ -115,7 +115,6 @@ router.post('/comments/:postId', withAuth, async (req, res) => {
 });
 
 
-// Define the route handler for updating a comment on a post
 
 
 module.exports = router;
