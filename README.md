@@ -1,5 +1,6 @@
 # TECH-BLOG
-![many screenn](https://user-images.githubusercontent.com/116024194/228420760-fcebf1f0-850d-4317-b0ac-5dd42e7d952d.png)
+![neww screnn](https://user-images.githubusercontent.com/116024194/228420912-5f8e0c99-2ce7-4306-9dd1-57dfa8b55e58.png)
+
 
 
 
